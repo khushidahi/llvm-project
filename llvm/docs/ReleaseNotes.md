@@ -236,6 +236,9 @@ Makes programs 10x faster by doing Special New Thing.
 
 ### Changes to building LLVM
 
+* The minimum required CMake version to build LLVM has been raised from 3.20.0
+  to 3.31.0.
+
 * A new `LLVM_ENABLE_LZMA` option (`ON`, `OFF` or `FORCE_ON`; default `ON`)
   controls whether LLVM links liblzma for xz decompression. It replaces LLDB's
   `LLDB_ENABLE_LZMA`, which is deprecated: a monorepo build maps it onto
@@ -335,6 +338,9 @@ Makes programs 10x faster by doing Special New Thing.
 
 ### Changes to the AMDGPU Backend
 
+* Added a compiler workaround for async barrier arrivals on gfx1250 and gfx1251
+  unless XNACK is explicitly disabled.
+
 * Replaced `xnack` and `sramecc` target features with `amdgpu.xnack`
   and `amdgpu.sramecc` module flags.
 * `llvm.amdgcn.make.buffer.rsrc` now accepts any integer width for its
@@ -405,6 +411,13 @@ Makes programs 10x faster by doing Special New Thing.
 ### Changes to the LoongArch Backend
 
 ### Changes to the MIPS Backend
+
+### Changes to the NVPTX Backend
+
+* Fixed incorrect parameter accesses for Boolean vector arguments and return
+  values. These values now use their packed vector memory representation,
+  fixing incorrect results and out-of-bounds parameter accesses, including
+  for GPU kernel arguments. See [modular/modular#7480](https://github.com/modular/modular/issues/7480).
 
 ### Changes to the PowerPC Backend
 
@@ -612,6 +625,8 @@ Makes programs 10x faster by doing Special New Thing.
   return values that were actually in a different set. Both methods are now fixed
   so that they are limited to the registers within the register set. Scripts
   using these methods may have to be updated as a result.
+* `SBInitializationOptions` carries process-wide options to a new
+  `SBDebugger::Initialize` overload.
 
 #### Windows
 
